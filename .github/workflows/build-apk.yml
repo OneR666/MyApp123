@@ -1,0 +1,39 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          python3.10 python3.10-venv python3.10-distutils \
+          git zip unzip openjdk-17-jdk build-essential
+
+    - name: Setup Python & Buildozer
+      run: |
+        python3.10 -m venv .venv
+        source .venv/bin/activate
+        pip install --upgrade pip
+        pip install buildozer==1.2.0 kivy
+
+    - name: Run Buildozer
+      run: |
+        source .venv/bin/activate
+        buildozer -v android debug
+
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: apk-debug
+        path: bin/*.apk
