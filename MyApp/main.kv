@@ -1,0 +1,90 @@
+<RootWidget>:
+    orientation: 'vertical'
+    padding: 10
+    spacing: 10
+
+    m_input: m_input
+    n_input: n_input
+    k_input: k_input
+    j_input: j_input
+    s_input: s_input
+    sample_input: sample_input
+    results_table: results_table
+
+    BoxLayout:
+        orientation: 'horizontal'
+        spacing: 10
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 5
+
+            Label:
+                text: "Total samples (m):"
+            TextInput:
+                id: m_input
+                input_filter: 'int'
+                multiline: False
+
+            Label:
+                text: "Selected samples (n):"
+            TextInput:
+                id: n_input
+                input_filter: 'int'
+                multiline: False
+
+            Label:
+                text: "Group size (k):"
+            TextInput:
+                id: k_input
+                input_filter: 'int'
+                multiline: False
+
+            Label:
+                text: "Subset size (j):"
+            TextInput:
+                id: j_input
+                input_filter: 'int'
+                multiline: False
+
+            Label:
+                text: "Required samples (s):"
+            TextInput:
+                id: s_input
+                input_filter: 'int'
+                multiline: False
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 5
+
+            Label:
+                text: "Samples:"
+            TextInput:
+                id: sample_input
+                multiline: True
+                hint_text: "Enter comma-separated samples"
+
+    BoxLayout:
+        size_hint_y: None
+        height: '48dp'
+        spacing: 10
+
+        Button:
+            text: "Generate"
+            on_press: root.start_generation()
+
+        Button:
+            text: "Load from DB"
+            on_press: root.load_from_db()
+
+        Button:
+            text: "Delete Results"
+            on_press: root.delete_results()
+
+    ScrollView:
+        GridLayout:
+            id: results_table
+            cols: 1
+            size_hint_y: None
+            height: self.minimum_height
